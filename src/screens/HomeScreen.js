@@ -14,12 +14,22 @@ export default function HomeScreen({ navigation, route }) {
     otherParam: 'anything you want here',
   };
 
+  const [count, setCount] = React.useState(0);
+
   React.useEffect(() => {
     if (route.params?.post) {
       // Post updated, do something with `route.params.post`
       // For example, send the post to the server
     }
   }, [route.params?.post]);
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Button onPress={() => setCount((c) => c + 1)} title="Update count" />
+      ),
+    });
+  }, [navigation]);
 
   return (
     <View style={styles.container}>
@@ -43,6 +53,7 @@ export default function HomeScreen({ navigation, route }) {
         }}
       />
       <Text stype={{ margin: 10 }}>Post: {route.params?.post}</Text>
+      <Text>Count: {count}</Text>
     </View>
   );
 }

@@ -11,7 +11,7 @@ import ProfileScreen from './screens/ProfileScreen';
 function LogoTitle() {
   return (
     <Image
-      style={{ width: 50, height: 50 }}
+      style={{ width: 32, height: 32 }}
       source={require('./assets/favicon.png')}
     />
   );
@@ -19,30 +19,24 @@ function LogoTitle() {
 
 export default function App() {
   const Stack = createStackNavigator();
-  const options = {
-    header: {
-      headerStyle: {
-        backgroundColor: '#f4511e',
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-      },
-    },
-  };
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={options.header}>
+      <Stack.Navigator>
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ headerTitle: (props) => <LogoTitle {...props} /> }}
+          options={({ navigation, route }) => ({
+            headerTitle: (props) => <LogoTitle {...props} />,
+          })}
         />
         <Stack.Screen
           name="Profile"
           component={ProfileScreen}
-          options={({ route }) => ({ title: route.params.name })}
+          options={({ route }) => ({
+            headerBackTitle: ' ',
+            title: route.params.name,
+          })}
         />
         <Stack.Screen name="CreatePost" component={CreatePostScreen} />
         <Stack.Screen
