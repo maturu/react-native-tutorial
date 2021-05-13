@@ -34,6 +34,12 @@ export default function HomeScreen({ navigation, route }) {
   return (
     <View style={styles.container}>
       <Button
+        title="Go to Settings"
+        onPress={() => {
+          navigation.navigate('Settings');
+        }}
+      />
+      <Button
         title="Go to Profile"
         onPress={() => {
           navigation.navigate('Profile', { name: 'Custom profile header' });
