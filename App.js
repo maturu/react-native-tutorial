@@ -50,11 +50,21 @@ const ProfileScreen = ({ navigation }) => {
 const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text>Home Screen</Text>
+      <Text style={{ fontSize: 30 }}>This is the home screen!</Text>
       <Button
         title="Go to Details"
         onPress={() => navigation.navigate('Details')}
       />
+      <Button title="Open Modal" onPress={() => navigation.navigate('Modal')} />
+    </View>
+  );
+};
+
+const ModalScreen = ({ navigation }) => {
+  return (
+    <View style={styles.container}>
+      <Text style={{ fontSize: 30 }}>This is a modal!</Text>
+      <Button title="Dismiss" onPress={() => navigation.goBack()} />
     </View>
   );
 };
@@ -79,44 +89,46 @@ const DetailsScreen = ({ navigation }) => {
   );
 };
 
+const HomeMainStackScreen = () => {
+  const HomeStack = createStackNavigator();
+  return (
+    <HomeStack.Navigator>
+      <HomeStack.Screen name="Home" component={HomeScreen} />
+      <HomeStack.Screen name="Details" component={DetailsScreen} />
+    </HomeStack.Navigator>
+  );
+};
+
 export default function App() {
   const Tab = createBottomTabNavigator();
-  const SettingsStack = createStackNavigator();
-  const HomeStack = createStackNavigator();
+  const FirstStack = createStackNavigator();
+  const SecondStack = createStackNavigator();
 
   return (
     <NavigationContainer>
       <Tab.Navigator>
         <Tab.Screen name="First">
           {() => (
-            <SettingsStack.Navigator>
-              <SettingsStack.Screen
-                name="Settings"
-                component={SettingsScreen}
-                initialParams={styles}
-              />
-              <SettingsStack.Screen
-                name="Profile"
-                component={ProfileScreen}
-                initialParams={styles}
-              />
-            </SettingsStack.Navigator>
+            <FirstStack.Navigator>
+              <FirstStack.Screen name="Settings" component={SettingsScreen} />
+              <FirstStack.Screen name="Profile" component={ProfileScreen} />
+            </FirstStack.Navigator>
           )}
         </Tab.Screen>
         <Tab.Screen name="Second">
           {() => (
-            <HomeStack.Navigator>
-              <HomeStack.Screen
-                name="Home"
-                component={HomeScreen}
-                initialParams={styles}
+            <SecondStack.Navigator mode="modal">
+              <SecondStack.Screen
+                name="HomeMain"
+                component={HomeMainStackScreen}
+                options={{ headerShown: false }}
               />
-              <HomeStack.Screen
-                name="Details"
-                component={DetailsScreen}
-                initialParams={styles}
+              <SecondStack.Screen
+                name="Modal"
+                component={ModalScreen}
+                options={{ headerShown: false }}
               />
-            </HomeStack.Navigator>
+            </SecondStack.Navigator>
           )}
         </Tab.Screen>
       </Tab.Navigator>
